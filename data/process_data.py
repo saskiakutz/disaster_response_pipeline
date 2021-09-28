@@ -61,7 +61,7 @@ def save_data(df, database_filename):
     :param database_filename: name of the sqlite database
     :return: none
     """
-    engine = create_engine('sqlite:///database_filename')
+    engine = create_engine('sqlite:///{}'.format(database_filename))
     df.to_sql('data_frame', engine, index=False)
 
 
