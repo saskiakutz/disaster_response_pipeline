@@ -81,8 +81,11 @@ def classification_report_multi(ytest, ypred, targetnames):
         report = classification_report(ytest[targetnames[i]], ypred[:, i])
         print(report)
 
+
 def save_model(model, model_filepath):
-    pass
+    dbfile = open(model_filepath, 'ab')
+    pickle.dump(model, dbfile)
+    dbfile.close()
 
 
 def main():
