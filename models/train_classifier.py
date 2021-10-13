@@ -32,7 +32,29 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
-    pass
+    url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+
+    urls = re.findall(url_regex, text)
+    for url in urls:
+        text = text.replace(url, 'urlplaceholder')
+    text = re.sub(r"[^a-zA-Z0-9]", " ", text)
+
+    tokens = word_tokenize(text)
+
+    token_wo_stop = []
+
+    for token in tokens:
+        if token not in stopwords.words('english'):
+            token_wo_stop.append(token)
+
+    lemmatizer = WordNetLemmatizer()
+
+    clean_tokens = []
+    for tok in tokens:
+        clean_tok = lemmatizer.lemmatize(tok.lower().replace(' ', ''))
+        clean_tokens.append(clean_tok)
+
+    return clean_tokens
 
 
 def build_model():
