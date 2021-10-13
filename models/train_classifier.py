@@ -58,11 +58,20 @@ def tokenize(text):
 
 
 def build_model():
-    pass
+    pipeline_LSV = Pipeline([('vect', CountVectorizer(tokenizer=tokenize)),
+                             ('tfidf', TfidfTransformer()),
+                             ('multi', MultiOutputClassifier(SGDClassifier()))])
+
+    parameters = {'multi__estimator__loss': ['hinge', 'perceptron'],
+                  'tfidf__smooth_idf': [True, False],
+                  'tfidf__sublinear_tf': [True, False]}
+
+    model = GridSearchCV(pipeline_LSV, parameters)
+    return model
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
-    pass
+
 
 
 def save_model(model, model_filepath):
