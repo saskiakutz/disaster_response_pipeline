@@ -41,6 +41,9 @@ def clean_data(df):
         categories_df[column] = categories_df[column].astype(str).str.split('-', expand=True)[1]
         categories_df[column] = categories_df[column].astype(int)
 
+    for column in categories_df:
+        categories_df.loc[(categories_df[column] != 1) & (categories_df[column] != 0)] = 1
+
     # replace 'categories' column in df with the new category data frame
     df = df.drop('categories', axis=1)
     df = pd.concat([df, categories_df], axis=1)
