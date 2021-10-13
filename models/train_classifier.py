@@ -71,8 +71,15 @@ def build_model():
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
+    y_pred = model.predict(X_test)
+    classification_report_multi(Y_test, y_pred, category_names)
 
 
+def classification_report_multi(ytest, ypred, targetnames):
+    for i in range(0, len(targetnames)):
+        print('Category {}'.format(targetnames[i]))
+        report = classification_report(ytest[targetnames[i]], ypred[:, i])
+        print(report)
 
 def save_model(model, model_filepath):
     pass
