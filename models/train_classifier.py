@@ -78,7 +78,7 @@ def evaluate_model(model, X_test, Y_test, category_names):
 def classification_report_multi(ytest, ypred, targetnames):
     for i in range(0, len(targetnames)):
         print('Category {}'.format(targetnames[i]))
-        report = classification_report(ytest[targetnames[i]], ypred[:, i])
+        report = classification_report(ytest[targetnames[i]], ypred[:, i], zero_division=1)
         print(report)
 
 
