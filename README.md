@@ -33,3 +33,5 @@ The ML model consists of the following parts:
 
 In order to run the ML pipeline enter the following command into your
 terminal: `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`.
+
+## Flask App
