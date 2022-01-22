@@ -34,6 +34,7 @@ The ML model consists of the following parts:
 - SGDClassifier, a Linear Support Vector Machine
 
 In the models folder, the following files are provided:
+
 - classifier.pkl
 - train-classifier.py
 - ML Pipeline Preparation.ipynb
@@ -43,8 +44,9 @@ terminal: `python models/train_classifier.py data/DisasterResponse.db models/cla
 
 ## Flask App
 
-The Flask App is a browser based application. It can classify new messages with the trained model as well as show some
-plots about the training data.
+The Flask App is a browser based application. It can classify new messages with the trained model. Furthermore, two
+plots based on the training messages data are provided. The first one shows the distribution of the messages' genre and
+the second one depicts their label distribution. 
 
 In order to run the Flask App enter the following command into your
 terminal: `python app/run.py`.
