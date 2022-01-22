@@ -17,6 +17,7 @@ stored in an SQL database. All necessary files are stored in the data folder.
 - messages.csv
 - DisasterResponse.db
 - process_data.py
+- ETL Pipeline Preparation.ipynb
 
 In order to run the ETL pipeline enter the following command into your
 terminal: `python data/process_data.py data/messages.csv data/categories.csv data/DisasterResponse.db`.
@@ -31,6 +32,11 @@ The ML model consists of the following parts:
 - CountVectorizer with a tokenizer that prepares the messages for adequate NLP
 - TfidfTransformer
 - SGDClassifier, a Linear Support Vector Machine
+
+In the models folder, the following files are provided:
+- classifier.pkl
+- train-classifier.py
+- ML Pipeline Preparation.ipynb
 
 In order to run the ML pipeline enter the following command into your
 terminal: `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`.
