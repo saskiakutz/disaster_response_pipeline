@@ -1,5 +1,6 @@
 import sys
 import nltk
+
 nltk.download(['punkt', 'stopwords', 'wordnet'])
 
 import pandas as pd
@@ -22,6 +23,11 @@ from sklearn.linear_model import SGDClassifier
 
 
 def load_data(database_filepath):
+    """
+    Loading the data file from the sqlite database
+    :param database_filepath: name of the sqlite database
+    :return: list with the message column, the labels and the names of the labels
+    """
     engine = create_engine('sqlite:///{}'.format(database_filepath))
     df = pd.read_sql_table('data_frame', engine)
 
@@ -32,6 +38,11 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
+    """
+    Tokenization of text
+    :param text: here, the messages
+    :return: tokenzied text
+    """
     url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
 
     urls = re.findall(url_regex, text)
@@ -58,6 +69,11 @@ def tokenize(text):
 
 
 def build_model():
+    """
+    Setup of the model. The pipeline consists of a CountVectorizer, a TfidfTransformer and a MultiOutputClassifier with
+    a SGDClassifier. The model is optimized with a GridSearch.
+    :return: optimize model
+    """
     pipeline_LSV = Pipeline([('vect', CountVectorizer(tokenizer=tokenize)),
                              ('tfidf', TfidfTransformer()),
                              ('multi', MultiOutputClassifier(SGDClassifier()))])
@@ -71,11 +87,26 @@ def build_model():
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
+    """
+    Evaluation of the model against the test data.
+    :param model: build model
+    :param X_test: dataset of test messages
+    :param Y_test: dataset of test labels/categories
+    :param category_names: names of the labels/categories of the text data
+    :return: classification report
+    """
     y_pred = model.predict(X_test)
     classification_report_multi(Y_test, y_pred, category_names)
 
 
 def classification_report_multi(ytest, ypred, targetnames):
+    """
+    Printing the classification report
+    :param ytest: test labels/categories data
+    :param ypred: predicted labels based on the test messages
+    :param targetnames: the names of the labels/categories
+    :return: print of the report
+    """
     for i in range(0, len(targetnames)):
         print('Category {}'.format(targetnames[i]))
         report = classification_report(ytest[targetnames[i]], ypred[:, i], zero_division=1)
@@ -83,6 +114,12 @@ def classification_report_multi(ytest, ypred, targetnames):
 
 
 def save_model(model, model_filepath):
+    """
+    Saving of the model as a pkl file
+    :param model: build and trained model
+    :param model_filepath: path for file
+    :return:
+    """
     dbfile = open(model_filepath, 'ab')
     pickle.dump(model, dbfile)
     dbfile.close()
